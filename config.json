@@ -1,0 +1,221 @@
+[
+  {
+    "name" : "ESB",
+    "dir" : "../esb/test/config/esb",
+    "verify" : "Online",
+    "verifyLines" : 20,
+    "verifyImmediately" : true,
+    "cmd" : "./run",
+    "depends" : [],
+    "env" : {
+        "ESB_PORT" : 8900
+    }
+  },
+  {
+    "name" : "FEM",
+    "dir" : "../esb/test/config/fem",
+    "verify" : "Online",
+    "verifyLines" : 20,
+    "verifyImmediately" : true,
+    "cmd" : "./run",
+    "depends" : [],
+    "env" : {
+        "ESB_PORT" : 8902,
+        "SOCKETIO_PORT" : 8901
+    }
+  },
+  {
+    "name" : "Primer",
+    "dir" : "../hydra/test/config/primer",
+    "verify" : "Hail hydra Primer",
+    "verifyLines" : 20,
+    "cmd" : "./run",
+    "depends" : [ "ESB" ]
+  },
+  {
+    "name" : "Auth",
+    "dir" : "../hydra/test/config/authentication",
+    "verify" : "Hail hydra Authentication",
+    "verifyLines" : 20,
+    "cmd" : "./run",
+    "depends" : [ "ESB", "CRUD_CUSTOMERS", "CRUD_USERS" ]
+  },
+  {
+    "name" : "PostChat",
+    "dir" : "../hydra/test/config/postchat",
+    "verify" : "Hail hydra PostChat",
+    "verifyLines" : 20,
+    "cmd" : "./run",
+    "depends" : [ "ESB" ]
+  },
+  {
+    "name" : "Suggestion",
+    "dir" : "../hydra/test/config/suggestion",
+    "verify" : "Hail hydra Suggestion",
+    "verifyLines" : 20,
+    "cmd" : "./run",
+    "depends" : [ "ESB" ]
+  },
+  {
+    "name" : "Router",
+    "dir" : "../hydra/test/config/router",
+    "verify" : "Hail hydra Router",
+    "verifyLines" : 20,
+    "cmd" : "./run",
+    "depends" : [ "ESB", "FEM", "CQM", "PostChat", "Suggestion", "Auth" ]
+  },
+  {
+    "name" : "CQM",
+    "dir" : "../ms-crud-customers",
+    "verify" : "Finished 'dev' after",
+    "verifyLines" : 200,
+    "cmd" : "gulp dev",
+    "depends" : [ "ESB" ],
+    "env" : {
+      "ESB" : "tcp://localhost:8900",
+      "DB" : "postgres://postgres:abc123@localhost:5432/cqm"
+    }
+  },
+  {
+    "name" : "CRUD_USERS",
+    "dir" : "../ms-crud-users",
+    "verify" : "Finished 'dev' after",
+    "verifyLines" : 200,
+    "cmd" : "gulp dev",
+    "depends" : [ "ESB" ],
+    "env" : {
+      "ESB" : "tcp://localhost:8900",
+      "DB" : "postgres://postgres:abc123@localhost:5432/help"
+    }
+  },
+  {
+    "name" : "CRUD_ORGANIZATIONS",
+    "dir" : "../ms-crud-organizations",
+    "verify" : "Finished 'dev' after",
+    "verifyLines" : 200,
+    "cmd" : "gulp dev",
+    "depends" : [ "ESB" ],
+    "env" : {
+      "ESB" : "tcp://localhost:8900",
+      "DB" : "postgres://postgres:abc123@localhost:5432/help"
+    }
+  },
+  {
+    "name" : "CRUD_CUSTOMERS",
+    "dir" : "../ms-crud-customers",
+    "verify" : "Finished 'dev' after",
+    "verifyLines" : 200,
+    "cmd" : "gulp dev",
+    "depends" : [ "ESB" ],
+    "env" : {
+      "ESB" : "tcp://localhost:8900",
+      "DB" : "postgres://postgres:abc123@localhost:5432/help"
+    }
+  },
+  {
+    "name" : "CACHE_NIBBLER",
+    "dir" : "../ms-cache-nibbler",
+    "verify" : "Finished 'dev' after",
+    "verifyLines" : 200,
+    "cmd" : "gulp dev",
+    "depends" : [ "ESB" ],
+    "env" : {
+      "ESB" : "tcp://localhost:8900",
+      "DB" : "postgres://postgres:abc123@localhost:5432/help"
+    }
+  },
+  {
+    "name" : "EVENT_MUNCHER",
+    "dir" : "../ms-event-muncher",
+    "verify" : "Finished 'dev' after",
+    "verifyLines" : 200,
+    "cmd" : "gulp dev",
+    "depends" : [ "ESB" ],
+    "env" : {
+      "ESB" : "tcp://localhost:8900",
+      "DB" : "postgres://postgres:abc123@localhost:5432/help"
+    }
+  },
+  {
+    "name" : "CHAT_PLUGIN",
+    "dir" : "../ws-chat-plugin",
+    "verify" : "Listening",
+    "verifyLines" : 300,
+    "cmd" : "gulp dev",
+    "depends" : [ "ESB", "FEM" ],
+    "env" : {
+      "ESB" : "tcp://localhost:8900",
+      "DB" : "postgres://postgres:abc123@localhost:5432/help",
+      "CDN" : "http://localhost:8083",
+      "FEM" : "http://localhost:8080",
+      "WS_PORT" : 8083
+    }
+  },
+  {
+    "name" : "TEST_CHAT",
+    "dir" : "../ms-test-chat",
+    "verify" : "listen",
+    "verifyLines" : 300,
+    "cmd" : "gulp dev",
+    "depends" : [ "ESB", "FEM" ],
+    "env" : {
+      "ESB" : "tcp://localhost:8900"
+    }
+  },
+  {
+    "name" : "MISSION_CONTROL",
+    "dir" : "../mission-control",
+    "verify" : "listen",
+    "verifyLines" : 200,
+    "cmd" : "gulp dev",
+    "depends" : [ "ESB" ],
+    "env" : {
+      "ESB" : "tcp://localhost:8900",
+      "CDN" : "http://localhost:8083",
+      "FEM" : "http://localhost:8080"
+    }
+  },
+  {
+    "name" : "WS_ANALYTICS",
+    "dir" : "../ws-analytics",
+    "verify" : "listen",
+    "verifyLines" : 300,
+    "cmd" : "gulp dev",
+    "env" : {
+      "WS_PORT" : 8088
+    }
+  },
+  {
+    "name" : "MS_CRUD_ANALYTICS",
+    "dir" : "../ms-crud-analytics",
+    "verify" : "listen",
+    "verifyLines" : 300,
+    "cmd" : "gulp dev",
+    "depends" : [ "ESB" ],
+    "env" : {
+      "ESB" : "tcp://localhost:8900"
+    }
+  },
+  {
+    "name" : "MS_CRUD_ANALYTICS_SESSION",
+    "dir" : "../ms-crud-analytics-session",
+    "verify" : "listen",
+    "verifyLines" : 300,
+    "cmd" : "gulp dev",
+    "depends" : [ "ESB" ],
+    "env" : {
+      "ESB" : "tcp://localhost:8900"
+    }
+  },
+  {
+    "name" : "MS_PARSE_ANALYTICS_SESSION",
+    "dir" : "../ms-parse-analytics-session",
+    "verify" : "listen",
+    "verifyLines" : 300,
+    "cmd" : "gulp dev",
+    "depends" : [ "ESB" ],
+    "env" : {
+      "ESB" : "tcp://localhost:8900"
+    }
+  }
+]

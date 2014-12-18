@@ -1,0 +1,224 @@
+#!/usr/bin/env perl
+
+use Data::Dumper;
+use FindBin;
+use IO::File;
+use IO::Select;
+use JSON;
+use Time::HiRes qw(usleep time gettimeofday tv_interval);
+use POSIX qw(strftime ceil);
+use Getopt::Long;
+
+my ( $debug );
+
+my $result = GetOptions(
+    "debug"  => \$debug,
+);
+
+my $debug_port = 5900;
+my %handle_names; # a mapping between the handle of a service, and it's name
+my %names_handle; # a mapping between the name of a service and it's handle
+my @all_env;      # all environment variables set by services
+
+my $sel               = IO::Select->new();
+my $include_timestamp = 1;
+my $include_date      = $ENV{USE_DATE} // 0;
+
+sub cleanup {
+    foreach my $sock ( $sel->handles() ) {
+        $sock->close;
+        $sel->remove($sock);
+    }
+    exit();
+}
+
+# Set up the sigint handler, to call our shutdown method
+$SIG{'INT'} = sub {
+    &cleanup();
+};
+
+sub get_data {
+    my $outbound;
+
+    foreach my $handle ( $sel->can_read(1) ) {
+        my $data;
+        my $label = &get_label( $handle );
+
+        sysread($handle, $data, 200_000);
+
+        my @lines = split( /\n/, $data );
+        foreach my $line (@lines) {
+            $line =~ s/\s*$//;
+            $outbound .= "$label : $line\n";
+        }
+    }
+
+    return $outbound;
+}
+
+sub get_label {
+    my $handle = shift;
+    my $label = $handle_names{$handle} || "! UNKNOWN ! ";
+    $label .= " [" . &get_timestamp() . "]" if ( $include_timestamp );
+    return $label;
+}
+
+sub get_timestamp {
+    my $dt = ( $include_date ? strftime("%Y%m%d %H:%M:%S", localtime) : strftime("%H:%M:%S", localtime));
+    my $t  = time();
+    return $dt . sprintf(".%03d", ( $t - int($t) ) * 1000);
+}
+
+sub verify_directly {
+    my ( $handle, $to_verify, $name, $line_limit ) = @_;
+    for ( 1..$line_limit ) {
+        local $SIG{ALRM} = sub {
+            &cleanup();
+            print "Failed to read data for $name\n";
+            die("Failed to read data for $name");
+        };
+        my $line;
+        eval {
+            alarm(30);
+            $line = readline($handle); # need alarm here
+            alarm(0);
+        };
+        print &get_label( $handle ) . " $line\n" if ( $debug );
+        return if ( $line =~ /$to_verify/g );
+    }
+    die("Could not start $name!");
+}
+
+my $label_len = 10;
+sub generate_label {
+    my $name = shift;
+    my $prepend = ($label_len - ceil(length($name))) / 2;
+    my $res = "[" . ( ' ' x $prepend ) . $name . ( ' ' x $prepend ) . ( length($name) % 2 != 0 ? ' ' : '' ) . "]";
+    return $res;
+}
+
+sub start {
+    my $config = shift;
+    print "[" . &get_timestamp() . "] Starting $config->{'name'}...\n";
+    my $dir = $FindBin::Bin . '/' . $config->{'dir'};
+    my $chres = chdir($dir);
+
+    die("Could not change directory to $dir, cannot start: $config->{'name'}!  Check out the module!") unless ( $chres );
+    die("'node_modules' missing for $config->{'name'}, please run 'npm install'") if ( $config->{'cmd'} =~ /gulp/ && ! -d "$dir/node_modules" );
+
+    map { delete($ENV{$_}) } @all_env;           # delete all environment variables to fresh slate
+    map { $ENV{$_} = $config->{'env'}->{$_} } keys(%{$config->{'env'}}) if ( $config->{'env'} ); # set all environment variables for the service
+
+    $ENV{"DEBUG_PORT"} = $debug_port++;
+
+    my $handle = IO::File->new("$config->{'cmd'} 2>&1|");
+    $handle_names{$handle} = &generate_label($config->{'name'});
+    $names_handle{$config->{'name'}} = $handle;
+    $sel->add($handle);
+
+    if ( $config->{'verifyImmediately'} ) {
+        &verify_directly($handle, $config->{'verify'}, $config->{'name'}, $config->{'verifyLines'});
+    }
+}
+
+sub load_config {
+    my $file     = IO::File->new("$FindBin::Bin/config.json");
+    my $data     = join('', <$file>);
+    my $outbound = {};
+
+    my $config;
+    eval { $config = decode_json($data) };
+    die("Unable to parse config.json $@") if ( $@ );
+    map { $outbound->{$_->{'name'}} = $_ } @{$config};
+
+    return $outbound;
+}
+
+sub determine_order {
+    my $config      = shift;
+    my $config_copy = { %{$config} };
+    my @order;
+    my %dependencies;
+
+    while ( keys(%{$config_copy}) > 0 ) {
+        foreach my $name ( sort(keys(%{$config_copy})) ) {
+            my $cc = $config_copy->{$name};
+            if ( ( ! $cc->{'depends'} || @{$cc->{'depends'}} == 0 ) || # if we have no dependencies
+                scalar(grep { $dependencies{$_} } @{$cc->{'depends'}}) == scalar(@{$cc->{'depends'}}) # or they are all met
+            ) {
+                $dependencies{$name} = 1;
+                delete($config_copy->{$name});
+                push(@order, $cc);
+            }
+        }
+    }
+    return @order;
+}
+
+sub aggregate_env {
+    my $config = shift;
+    my %tmp;
+    foreach my $name ( keys(%{$config}) ) {
+        if ( $config->{$name}{'env'} ) {
+            foreach my $key ( keys(%{$config->{$name}{'env'}}) ) {
+                $tmp{$key} = 1;
+            }
+        }
+    }
+    @all_env = keys(%tmp);
+}
+
+sub apply_filter {
+    my $order = shift;
+    if ( $ENV{"KASKADE_FILTER"} ) {
+        my @filters = split(",", $ENV{"KASKADE_FILTER"});
+
+        foreach my $filter ( @filters ) {
+            for ( my $cc = 0; $cc < $#{$order}; $cc++ ) {
+                if ( index($order->[$cc]{'name'}, $filter) >= 0 ) {
+                    splice(@{$order}, $cc, 1);
+                    $cc--;
+                }
+            }
+        }
+    }
+}
+
+sub main {
+    $ENV{"PYTHONUNBUFFERED"} = 1;
+
+    my $config = &load_config();
+    my @order  = &determine_order($config);
+    &aggregate_env($config); # aggregate our env's
+    &apply_filter(\@order);  # now apply the filter
+
+    my ( $t0, $t1, $elapsed );
+    $t0 = [gettimeofday];
+
+    print "\n[". &get_timestamp() . "] Starting [ " . join(" / ", map { $_->{'name'} } @order) . " ]\n\n";
+
+    map { &start($_) } @order;
+
+    foreach my $config ( @order ) {
+        next if ( $config->{'verifyImmediately'} );
+
+        print "[" . &get_timestamp() . "] Verifying $config->{'name'}...\n";
+        &verify_directly($names_handle{$config->{'name'}}, $config->{'verify'}, $config->{'name'}, $config->{'verifyLines'});
+    }
+
+    $t1 = [gettimeofday];
+    $elapsed = tv_interval( $t0, $t1 );
+    print "\n[" . &get_timestamp() . "] SUCCESS ($elapsed seconds) [ " . join(" / ", map { $_->{'name'} } @order) . " ] ready!\n\n";
+
+    # 10. Continue to watch for output
+    while ( 1 ) {
+        print &get_data();
+        sleep(1);
+    }
+}
+
+END {
+    &cleanup(); # if we ever shut down cleanly, run the cleanup method anyway
+}
+
+&main();

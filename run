@@ -1,0 +1,16 @@
+#!/bin/bash
+
+if [[ $USER == "ryan" ]]
+then
+    export KASKADE_FILTER=ANALYTICS,TEST,CHAT
+else
+    echo "Please set up your user here! $USER"
+    exit
+fi
+
+if [ $1 ]
+then
+    ./kaskade --debug
+else
+    ./kaskade
+fi
