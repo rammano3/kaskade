@@ -3,6 +3,9 @@
 if [[ $USER == "ryan" ]]
 then
     export KASKADE_FILTER=ANALYTICS,TEST,CHAT
+elif [[ $USER == "alex" ]]
+then
+    export KASKADE_FILTER=ANALYTICS
 else
     echo "Please set up your user here! $USER"
     exit
