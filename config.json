@@ -30,7 +30,7 @@
     "verify" : "Hail hydra Primer",
     "verifyLines" : 20,
     "cmd" : "./run",
-    "depends" : [ "ESB" ]
+    "depends" : [ "ESB", "CRUD_ORGANIZATIONS" ]
   },
   {
     "name" : "Auth",
@@ -62,7 +62,7 @@
     "verify" : "Hail hydra Router",
     "verifyLines" : 20,
     "cmd" : "./run",
-    "depends" : [ "ESB", "FEM", "CQM", "PostChat", "Suggestion", "Auth" ]
+    "depends" : [ "ESB", "FEM", "Primer", "CQM", "PostChat", "Suggestion", "Auth" ]
   },
   {
     "name" : "CQM",
@@ -70,10 +70,10 @@
     "verify" : "Finished 'dev' after",
     "verifyLines" : 200,
     "cmd" : "gulp dev",
-    "depends" : [ "ESB" ],
+    "depends" : [ "ESB", "Primer" ],
     "env" : {
       "ESB" : "tcp://localhost:8900",
-      "DB" : "postgres://postgres:abc123@localhost:5432/cqm"
+      "DB"  : "postgres://postgres:abc123@localhost:5432/cqm"
     }
   },
   {
@@ -93,6 +93,7 @@
     "dir" : "../ms-crud-organizations",
     "verify" : "Finished 'dev' after",
     "verifyLines" : 200,
+    "verifyImmediately" : true,
     "cmd" : "gulp dev",
     "depends" : [ "ESB" ],
     "env" : {
