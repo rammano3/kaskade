@@ -26,6 +26,7 @@ my $include_date      = $ENV{USE_DATE} // 0;
 
 sub cleanup {
     foreach my $sock ( $sel->handles() ) {
+        print "Closing: $handle_names{$sock}\n";
         $sock->close;
         $sel->remove($sock);
     }
