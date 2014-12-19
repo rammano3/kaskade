@@ -173,7 +173,8 @@
     "env" : {
       "ESB" : "tcp://localhost:8900",
       "CDN" : "http://localhost:8083",
-      "FEM" : "http://localhost:8080"
+      "FEM" : "http://localhost:8080",
+      "ORGANIZATION_ID": "2b9ad7bd-3aba-407c-83ce-9e95581a11bf"
     }
   },
   {
