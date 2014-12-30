@@ -5,7 +5,7 @@ This is a launch control program capable of launching our stack.
 
 ## Setup
 
-1. Begin inisde the local directory for this (kaskade) repo
+1. Begin inside the local directory for this (kaskade) repo
 1. Prepare to clone all available services, as identified in [`config.json`](config.json)
 
   ```sh
@@ -21,6 +21,5 @@ This is a launch control program capable of launching our stack.
 1. NPM Install all service dependencies
 
   ```sh
-  $ chmod +x npmi.sh
   $ ./npmi.sh
   ```
