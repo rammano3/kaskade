@@ -1,9 +1,12 @@
 require('shelljs/global');
 var fs = require('fs');
 var gitUrl = 'git@github.com:';
+var gitUpstreamUrl = gitUrl + 'helpdotcom';
 var username;
 var service;
+var upstreamRepo;
 var repo;
+var repoUrl;
 var repoCache = [];
 
 if (!!process.argv[2]) {
@@ -24,9 +27,10 @@ for (service in config) {
   }
   repoCache.push(repo);
 
-  repo = gitUrl + '/' + repo;
+  upstreamRepo = gitUpstreamUrl + '/' + repo;
+  repoUrl = gitUrl + '/' + repo;
 
-  exec('cd .. && git clone ' + repo, function(code, output) {
+  exec('cd .. && git clone ' + repoUrl + ' && cd ' + repo + ' && git remote add upstream ' + upstreamRepo + ' && git remote -v', function(code, output) {
     // carry on
   });
 }
