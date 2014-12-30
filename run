@@ -2,7 +2,7 @@
 
 if [[ $USER == "ryan" ]]
 then
-    export KASKADE_FILTER=ANALYTICS,TEST,CHAT
+    export KASKADE_FILTER=ANALYTICS,TEST,NIBB,Reporting
 elif [[ $USER == "alex" ]]
 then
     export KASKADE_FILTER=ANALYTICS
@@ -13,7 +13,13 @@ fi
 
 if [ $1 ]
 then
-    ./kaskade --debug
+    if [[ $1 == "debug" ]]
+    then
+        ./kaskade --debug
+    elif [[ $1 == "test" ]]
+    then
+        ./kaskade --test
+    fi
 else
     ./kaskade
 fi

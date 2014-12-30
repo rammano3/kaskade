@@ -9,7 +9,8 @@
     "depends" : [],
     "env" : {
         "ESB_PORT" : 8900
-    }
+    },
+    "testSuite" : "../esb/test/basic.py"
   },
   {
     "name" : "FEM",
@@ -29,6 +30,7 @@
     "dir" : "../hydra/test/config/primer",
     "verify" : "Hail hydra Primer",
     "verifyLines" : 20,
+    "verifyImmediately" : true,
     "cmd" : "./run",
     "depends" : [ "ESB", "CRUD_ORGANIZATIONS" ]
   },
@@ -46,7 +48,8 @@
     "verify" : "Hail hydra PostChat",
     "verifyLines" : 20,
     "cmd" : "./run",
-    "depends" : [ "ESB" ]
+    "depends" : [ "ESB" ],
+    "testSuite" : "../hydra/test/post_chat_survey_test.pl"
   },
   {
     "name" : "Suggestion",
@@ -54,7 +57,8 @@
     "verify" : "Hail hydra Suggestion",
     "verifyLines" : 20,
     "cmd" : "./run",
-    "depends" : [ "ESB" ]
+    "depends" : [ "ESB" ],
+    "testSuite" : "../hydra/test/suggestion_test.pl"
   },
   {
     "name" : "Router",
@@ -116,18 +120,6 @@
   {
     "name" : "CACHE_NIBBLER",
     "dir" : "../ms-cache-nibbler",
-    "verify" : "Finished 'dev' after",
-    "verifyLines" : 200,
-    "cmd" : "gulp dev",
-    "depends" : [ "ESB" ],
-    "env" : {
-      "ESB" : "tcp://localhost:8900",
-      "DB" : "postgres://postgres:abc123@localhost:5432/help"
-    }
-  },
-  {
-    "name" : "EVENT_MUNCHER",
-    "dir" : "../ms-event-muncher",
     "verify" : "Finished 'dev' after",
     "verifyLines" : 200,
     "cmd" : "gulp dev",
