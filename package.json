@@ -1,0 +1,11 @@
+{
+  "name": "kaskade",
+  "description": "runs the world",
+  "dependencies": {
+    "shelljs": "^0.3.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/helpdotcom/kaskade"
+  }
+}
