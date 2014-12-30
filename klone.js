@@ -18,6 +18,11 @@ if (!!process.argv[2]) {
 
 var config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
 
+// start with adding the upstream for this repo
+exec('git remote add upstream ' + gitUpstreamUrl + '/kaskade', function(code, output) {
+  // carry on
+});
+
 for (service in config) {
   repo = config[service].dir.replace(/^..\//, '')
     .replace(/\/.*/, '');
