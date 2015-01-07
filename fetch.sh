@@ -1,9 +1,11 @@
 #!/bin/bash
 
-for dir in */; do
+origin=$(pwd)
+
+for dir in ../*/; do
   echo "Git pulling $dir."
   cd $dir
   git fetch upstream
   git rebase upstream/master
-  cd ..
+  cd $origin
 done
