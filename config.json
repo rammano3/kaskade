@@ -220,7 +220,9 @@
     "verifyLines" : 300,
     "cmd" : "gulp dev",
     "env" : {
-      "WS_PORT" : 8088
+      "WS_PORT" : 8088,
+      "ESB" : "tcp://localhost:8900",
+      "ANALYTICS_URL" : "http://localhost:8088"
     }
   },
   {
@@ -231,7 +233,8 @@
     "cmd" : "gulp dev",
     "depends" : [ "ESB" ],
     "env" : {
-      "ESB" : "tcp://localhost:8900"
+      "ESB" : "tcp://localhost:8900",
+      "DB" : "postgres://postgres:abc123@localhost:5432/help"
     }
   },
   {
@@ -242,7 +245,8 @@
     "cmd" : "gulp dev",
     "depends" : [ "ESB" ],
     "env" : {
-      "ESB" : "tcp://localhost:8900"
+      "ESB" : "tcp://localhost:8900",
+      "DB" : "postgres://postgres:abc123@localhost:5432/help"
     }
   },
   {
@@ -253,7 +257,8 @@
     "cmd" : "gulp dev",
     "depends" : [ "ESB" ],
     "env" : {
-      "ESB" : "tcp://localhost:8900"
+      "ESB" : "tcp://localhost:8900",
+      "DB" : "postgres://postgres:abc123@localhost:5432/help"
     }
   }
 ]
