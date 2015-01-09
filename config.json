@@ -101,6 +101,17 @@
     }
   },
   {
+    "name" : "MS_ORGANIZATION_SETTINGS",
+    "dir" : "../ms-organization-settings",
+    "verify" : "Finished 'dev' after",
+    "verifyLines" : 200,
+    "cmd" : "gulp dev",
+    "depends" : [ "ESB", "Primer", "CRUD_ORGANIZATIONS" ],
+    "env" : {
+      "ESB" : "tcp://localhost:8900"
+    }
+  },
+  {
     "name" : "CRUD_USERS",
     "dir" : "../ms-crud-users",
     "verify" : "Finished 'dev' after",
