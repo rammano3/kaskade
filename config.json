@@ -83,6 +83,17 @@
     "verify" : "Finished 'dev' after",
     "verifyLines" : 200,
     "cmd" : "gulp dev",
+    "depends" : [ "ESB", "Primer", "MS_ORGANIZATION_STATE" ],
+    "env" : {
+      "ESB" : "tcp://localhost:8900"
+    }
+  },
+  {
+    "name" : "MS_ORGANIZATION_STATE",
+    "dir" : "../ms-organization-state",
+    "verify" : "Finished 'dev' after",
+    "verifyLines" : 200,
+    "cmd" : "gulp dev",
     "depends" : [ "ESB", "Primer" ],
     "env" : {
       "ESB" : "tcp://localhost:8900",
