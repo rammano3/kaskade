@@ -23,7 +23,8 @@
     "env" : {
         "ESB_PORT" : 8902,
         "SOCKETIO_PORT" : 8901
-    }
+    },
+    "testSuite" : "../esb/test/fem-delivery-test.js"
   },
   {
     "name" : "Primer",
@@ -41,7 +42,8 @@
     "verifyLines" : 20,
     "verifyImmediately" : true,
     "cmd" : "./run",
-    "depends" : [ "ESB" ]
+    "depends" : [ "ESB" ],
+    "testSuite" : "../hydra/test/reporting_test.js"
   },
   {
     "name" : "Auth",
@@ -49,7 +51,8 @@
     "verify" : "Hail hydra Authentication",
     "verifyLines" : 20,
     "cmd" : "./run",
-    "depends" : [ "ESB", "CRUD_CUSTOMERS", "CRUD_USERS", "CRUD_GROUPS", "CRUD_GROUPUSERS", "CQM" ]
+    "depends" : [ "ESB", "CRUD_CUSTOMERS", "CRUD_USERS", "CRUD_GROUPS", "CRUD_GROUPUSERS", "CQM" ],
+    "testSuite" : "../hydra/test/simple_auth_test.js"
   },
   {
     "name" : "PostChat",
@@ -75,7 +78,8 @@
     "verify" : "Hail hydra Router",
     "verifyLines" : 20,
     "cmd" : "./run",
-    "depends" : [ "ESB", "FEM", "Primer", "CQM", "PostChat", "Suggestion", "Auth" ]
+    "depends" : [ "ESB", "FEM", "Primer", "CQM", "PostChat", "Suggestion", "Auth" ],
+    "testSuite" : "../hydra/test/router-test.js"
   },
   {
     "name" : "CQM",

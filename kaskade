@@ -30,7 +30,7 @@ sub cleanup {
     print $issue if ( $issue );
     foreach my $sock ( $sel->handles() ) {
         print "Closing: $handle_names{$sock}\n";
-        $sock->close;
+        $sock->close();
         $sel->remove($sock);
     }
     exit();
@@ -90,7 +90,7 @@ sub verify_directly {
         print &get_label( $handle ) . " $line\n" if ( $debug );
         return if ( $line =~ /$to_verify/g );
     }
-    &cleanup("Could not start $name!");
+    &cleanup("Could not start $name!\n");
 }
 
 my $label_len = 10;
@@ -215,29 +215,36 @@ sub main {
     print "\n[" . &get_timestamp() . "] SUCCESS ($elapsed seconds) [ " . join(" / ", map { $_->{'name'} } @order) . " ] ready!\n\n";
 
     if ( $test ) {
-        sleep(1);
+        sleep(2);
         foreach my $config ( @order ) {
             if ( ! $config->{'testSuite'} ) {
                 print "\t\tNo test suite for $config->{'name'}\n";
                 next;
             }
-            my $cmd = $FindBin::Bin . "/" . $config->{'testSuite'};
-            my $output = `$cmd`;
-            my $test_result = $?;
-            if ( $test_result == 0 ) {
-                print "\tRan test suite for $config->{'name'} result = $test_result\n";
-            } else {
-                print "\n\n$output \n\nFailed test $config->{'name'} result = $test_result\n";
+
+            $config->{'testSuite'} = [ $config->{'testSuite'} ] if ( ! ref($config->{'testSuite'}) );
+
+            foreach my $ts ( @{$config->{'testSuite'}} ) {
+                my $cmd = $FindBin::Bin . "/" . $ts;
+                $cmd = "mocha $cmd" if ( $cmd =~ /\.js\s*$/ );
+                my $output = `$cmd`;
+                my $test_result = $?;
+                if ( $test_result == 0 ) {
+                    print "\t(GOOD) Ran test suite for $config->{'name'} result\n";
+                } else {
+                    print "\n\n$output \n\nFailed test $config->{'name'} result = $test_result\n";
+                }
             }
         }
-        #&cleanup();
-    }
-
-    # 10. Continue to watch for output
-    while ( 1 ) {
-        my $res = &get_data();
-        print $res . "\n" if ( $res );
-        sleep(1);
+        print "\nTests complete, hit ctrl-c\n\n";
+        my $throwaway = <STDIN>;
+    } else {
+        # 10. Continue to watch for output
+        while ( 1 ) {
+            my $res = &get_data();
+            print $res . "\n" if ( $res );
+            sleep(1);
+        }
     }
 }
 
