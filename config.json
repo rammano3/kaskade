@@ -73,6 +73,15 @@
     "testSuite" : "../hydra/test/suggestion_test.pl"
   },
   {
+    "name" : "Sentinel",
+    "dir" : "../hydra/test/config/sentinel",
+    "verify" : "Hail hydra Sentinel",
+    "verifyLines" : 20,
+    "cmd" : "./run",
+    "depends" : [ "ESB" ],
+    "testSuite" : "../hydra/test/sentinel_test.pl"
+  },
+  {
     "name" : "Router",
     "dir" : "../hydra/test/config/router",
     "verify" : "Hail hydra Router",
