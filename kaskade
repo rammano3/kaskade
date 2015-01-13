@@ -75,6 +75,7 @@ sub get_timestamp {
 
 sub verify_directly {
     my ( $handle, $to_verify, $name, $line_limit ) = @_;
+    my @lines_recorded;
     for ( 1..$line_limit ) {
         local $SIG{ALRM} = sub {
             &cleanup();
@@ -87,10 +88,11 @@ sub verify_directly {
             $line = readline($handle); # need alarm here
             alarm(0);
         };
+        push(@lines_recorded, $line);
         print &get_label( $handle ) . " $line\n" if ( $debug );
         return if ( $line =~ /$to_verify/g );
     }
-    &cleanup("Could not start $name!\n");
+    &cleanup("Could not start $name!\n\n\n" . join(@lines_recorded, ""));
 }
 
 my $label_len = 10;
