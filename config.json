@@ -79,7 +79,16 @@
     "verifyLines" : 20,
     "cmd" : "./run",
     "depends" : [ "ESB" ],
-    "testSuite" : "../hydra/test/sentinel_test.pl"
+    "testSuite" : "../hydra/test/sentinel_test.js"
+  },
+  {
+    "name" : "History",
+    "dir" : "../hydra/test/config/history",
+    "verify" : "Hail hydra History",
+    "verifyLines" : 20,
+    "cmd" : "./run",
+    "depends" : [ "ESB" ],
+    "testSuite" : "../hydra/test/history_test.pl"
   },
   {
     "name" : "Router",
