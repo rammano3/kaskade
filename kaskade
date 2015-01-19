@@ -123,6 +123,7 @@ sub start {
     $sel->add($handle);
 
     if ( $config->{'verifyImmediately'} ) {
+        die("Missing 'verifyLines' attribute for $config->{'name'}") if ( ! $config->{'verifyLines'} );
         &verify_directly($handle, $config->{'verify'}, $config->{'name'}, $config->{'verifyLines'});
     }
 }

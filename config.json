@@ -293,5 +293,17 @@
       "ESB" : "tcp://localhost:8900",
       "DB" : "postgres://postgres:abc123@localhost:5432/help"
     }
+  },
+  {
+    "name" : "MS_EMAIL",
+    "dir" : "../ms-emailer",
+    "verify" : "Starting",
+    "verifyLines" : "300",
+    "cmd" : "gulp dev",
+    "depends" : [ "ESB" ],
+    "env" : {
+      "ESB" : "tcp://localhost:8900",
+      "MANDRILL_API_KEY" : "fake-made-up-key"
+    }
   }
 ]
