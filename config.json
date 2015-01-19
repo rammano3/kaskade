@@ -73,6 +73,24 @@
     "testSuite" : "../hydra/test/suggestion_test.pl"
   },
   {
+    "name" : "Sentinel",
+    "dir" : "../hydra/test/config/sentinel",
+    "verify" : "Hail hydra Sentinel",
+    "verifyLines" : 20,
+    "cmd" : "./run",
+    "depends" : [ "ESB" ],
+    "testSuite" : "../hydra/test/sentinel_test.js"
+  },
+  {
+    "name" : "History",
+    "dir" : "../hydra/test/config/history",
+    "verify" : "Hail hydra History",
+    "verifyLines" : 20,
+    "cmd" : "./run",
+    "depends" : [ "ESB" ],
+    "testSuite" : "../hydra/test/history_test.pl"
+  },
+  {
     "name" : "Router",
     "dir" : "../hydra/test/config/router",
     "verify" : "Hail hydra Router",
@@ -285,6 +303,18 @@
     "env" : {
       "ESB" : "tcp://localhost:8900",
       "DB" : "postgres://postgres:abc123@localhost:5432/help"
+    }
+  },
+  {
+    "name" : "MS_EMAIL",
+    "dir" : "../ms-emailer",
+    "verify" : "Starting",
+    "verifyLines" : "300",
+    "cmd" : "gulp dev",
+    "depends" : [ "ESB" ],
+    "env" : {
+      "ESB" : "tcp://localhost:8900",
+      "MANDRILL_API_KEY" : "fake-made-up-key"
     }
   }
 ]
