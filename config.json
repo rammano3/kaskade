@@ -170,6 +170,19 @@
     }
   },
   {
+    "name" : "CRUD_DEPARMENTS",
+    "dir" : "../ms-crud-departments",
+    "verify" : "Finished 'dev' after",
+    "verifyLines" : 200,
+    "verifyImmediately" : true,
+    "cmd" : "gulp dev",
+    "depends" : [ "ESB" ],
+    "env" : {
+      "ESB" : "tcp://localhost:8900",
+      "DB" : "postgres://postgres:abc123@localhost:5432/help"
+    }
+  },
+  {
     "name" : "CRUD_CUSTOMERS",
     "dir" : "../ms-crud-customers",
     "verify" : "Finished 'dev' after",
