@@ -107,6 +107,7 @@
     "cmd" : "./run",
     "depends" : [ "ESB", "FEM" ]
   },
+  /*
   {
     "name" : "OrganizationManager",
     "dir" : "../hydra/test/config/organizationmanager",
@@ -115,6 +116,7 @@
     "cmd" : "./run",
     "depends" : [ "ESB", "CRUD_ORGANIZATIONS", "CRUD_USERS", "CRUD_GROUPS" ]
   },
+  */
   {
     "name" : "CQM",
     "dir" : "../ms-chat-queue-manager",
