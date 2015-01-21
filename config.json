@@ -100,6 +100,22 @@
     "testSuite" : "../hydra/test/router-test.js"
   },
   {
+    "name" : "OfflineMessenger",
+    "dir" : "../hydra/test/config/offlinemessenger",
+    "verify" : "Hail hydra OfflineMessenger",
+    "verifyLines" : 20,
+    "cmd" : "./run",
+    "depends" : [ "ESB", "FEM" ]
+  },
+  {
+    "name" : "OrganizationManager",
+    "dir" : "../hydra/test/config/organizationmanager",
+    "verify" : "Hail hydra OrganizationManager",
+    "verifyLines" : 20,
+    "cmd" : "./run",
+    "depends" : [ "ESB", "CRUD_ORGANIZATIONS", "CRUD_USERS", "CRUD_GROUPS" ]
+  },
+  {
     "name" : "CQM",
     "dir" : "../ms-chat-queue-manager",
     "verify" : "Finished 'dev' after",
