@@ -14,6 +14,7 @@ my ( $debug, $test );
 my $result = GetOptions(
     "debug"  => \$debug,
     "test"   => \$test,
+    "slow"   => \$verify_all_immediately
 );
 
 my $debug_port = 5900;
@@ -78,8 +79,8 @@ sub verify_directly {
     my @lines_recorded;
     for ( 1..$line_limit ) {
         local $SIG{ALRM} = sub {
-            &cleanup();
             print "Failed to read data for $name\n";
+            &cleanup();
             die("Failed to read data for $name");
         };
         my $line;
@@ -92,7 +93,8 @@ sub verify_directly {
         print &get_label( $handle ) . " $line\n" if ( $debug );
         return if ( $line =~ /$to_verify/g );
     }
-    &cleanup("Could not start $name!\n\n\n" . join(@lines_recorded, ""));
+    print "Could not start $name!\n\n\n" . join(@lines_recorded, "") . "\n";
+    &cleanup();
 }
 
 my $label_len = 10;
@@ -122,8 +124,10 @@ sub start {
     $names_handle{$config->{'name'}} = $handle;
     $sel->add($handle);
 
-    if ( $config->{'verifyImmediately'} ) {
-        die("Missing 'verifyLines' attribute for $config->{'name'}") if ( ! $config->{'verifyLines'} );
+    die("Missing 'verifyLines' attribute for $config->{'name'}") if ( ! $config->{'verifyLines'} );
+    die("Missing 'verify' attribute for $config->{'name'}") if ( ! $config->{'verify'} );
+
+    if ( $config->{'verifyImmediately'} || $verify_all_immediately ) {
         &verify_directly($handle, $config->{'verify'}, $config->{'name'}, $config->{'verifyLines'});
     }
 }
@@ -207,7 +211,7 @@ sub main {
     map { &start($_) } @order;
 
     foreach my $config ( @order ) {
-        next if ( $config->{'verifyImmediately'} );
+        next if ( $config->{'verifyImmediately'} || $verify_all_immediately );
 
         print "[" . &get_timestamp() . "] Verifying $config->{'name'}...\n";
         &verify_directly($names_handle{$config->{'name'}}, $config->{'verify'}, $config->{'name'}, $config->{'verifyLines'});
