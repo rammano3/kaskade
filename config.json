@@ -108,6 +108,14 @@
     "depends" : [ "ESB", "FEM" ]
   },
   {
+    "name" : "OrganizationManager",
+    "dir" : "../hydra/test/config/organizationmanager",
+    "verify" : "Hail hydra OrganizationManager",
+    "verifyLines" : 20,
+    "cmd" : "./run",
+    "depends" : [ "ESB", "FEM" ]
+  },
+  {
     "name" : "CQM",
     "dir" : "../ms-chat-queue-manager",
     "verify" : "Finished 'dev' after",
