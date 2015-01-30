@@ -116,6 +116,22 @@
     "depends" : [ "ESB", "FEM" ]
   },
   {
+    "name" : "NoteManager",
+    "dir" : "../hydra/test/config/notemanager",
+    "verify" : "Hail hydra NoteManager",
+    "verifyLines" : 20,
+    "cmd" : "./run",
+    "depends" : [ "ESB", "FEM" ]
+  },
+  {
+    "name" : "TagManager",
+    "dir" : "../hydra/test/config/tagmanager",
+    "verify" : "Hail hydra TagManager",
+    "verifyLines" : 20,
+    "cmd" : "./run",
+    "depends" : [ "ESB", "FEM" ]
+  },
+  {
     "name" : "CQM",
     "dir" : "../ms-chat-queue-manager",
     "verify" : "Finished 'dev' after",
