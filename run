@@ -3,7 +3,7 @@
 if [[ $USER == "ryan" ]]
 then
     export KASKADE_FILTER=ANALYTICS,TEST,NIBB
-elif [[ $USER == "alex" ]]
+elif [[ $USER == "suitupalex" ]]
 then
     export KASKADE_FILTER=ANALYTICS
 else
