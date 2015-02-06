@@ -177,6 +177,17 @@
     }
   },
   {
+    "name" : "Customer Sonar",
+    "dir" : "../ms-customer-sonar",
+    "verify" : "Finished 'dev' after",
+    "verifyLines" : 200,
+    "cmd" : "gulp dev",
+    "depends" : [ "ESB", "Primer", "MS_ORGANIZATION_STATE" ],
+    "env" : {
+      "ESB" : "tcp://localhost:8900"
+    }
+  },
+  {
     "name" : "MS_ORGANIZATION_SETTINGS",
     "dir" : "../ms-organization-settings",
     "verify" : "Finished 'dev' after",
