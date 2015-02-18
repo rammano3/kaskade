@@ -143,6 +143,17 @@
     }
   },
   {
+    "name" : "TRANSFER",
+    "dir" : "../ms-chat-transfer",
+    "verify" : "Finished 'dev' after",
+    "verifyLines" : 200,
+    "cmd" : "gulp dev",
+    "depends" : [ "ESB", "Primer", "MS_ORGANIZATION_STATE" ],
+    "env" : {
+      "ESB" : "tcp://localhost:8900"
+    }
+  },
+  {
     "name" : "CQM",
     "dir" : "../ms-chat-queue-manager",
     "verify" : "Finished 'dev' after",
@@ -179,6 +190,17 @@
   {
     "name" : "Customer Sonar",
     "dir" : "../ms-customer-sonar",
+    "verify" : "Finished 'dev' after",
+    "verifyLines" : 200,
+    "cmd" : "gulp dev",
+    "depends" : [ "ESB", "Primer", "MS_ORGANIZATION_STATE" ],
+    "env" : {
+      "ESB" : "tcp://localhost:8900"
+    }
+  },
+  {
+    "name" : "User Sonar",
+    "dir" : "../ms-user-sonar",
     "verify" : "Finished 'dev' after",
     "verifyLines" : 200,
     "cmd" : "gulp dev",
