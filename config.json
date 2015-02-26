@@ -96,7 +96,7 @@
     "verify" : "Hail hydra Router",
     "verifyLines" : 20,
     "cmd" : "./run",
-    "depends" : [ "ESB", "FEM", "Primer", "CQM", "PostChat", "Suggestion", "Auth" ],
+    "depends" : [ "ESB", "FEM", "Primer", "CQM", "PostChat", "Suggestion", "Auth", "History", "SalesForceGet" ],
     "testSuite" : "../hydra/test/router-test.js"
   },
   {
@@ -453,5 +453,14 @@
       "ESB" : "tcp://localhost:8900",
       "MANDRILL_API_KEY" : "fake-made-up-key"
     }
+  },
+  {
+    "name" : "SalesForceGet",
+    "dir" : "../hydra/test/config/salesforceget",
+    "verify" : "Hail hydra SalesForceGet",
+    "verifyLines" : 20,
+    "verifyImmediately" : true,
+    "cmd" : "./run",
+    "depends" : [ "ESB" ]
   }
 ]
