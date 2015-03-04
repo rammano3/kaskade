@@ -187,6 +187,28 @@
     }
   },
   {
+    "name" : "Chat Transcript",
+    "dir" : "../ms-chat-transcript",
+    "verify" : "Finished 'dev' after",
+    "verifyLines" : 200,
+    "cmd" : "gulp dev",
+    "depends" : [ "ESB", "Primer", "MS_ORGANIZATION_STATE" ],
+    "env" : {
+      "ESB" : "tcp://localhost:8900"
+    }
+  },
+  {
+    "name" : "Organization Transcript",
+    "dir" : "../ms-organization-transcript",
+    "verify" : "Finished 'dev' after",
+    "verifyLines" : 200,
+    "cmd" : "gulp dev",
+    "depends" : [ "ESB", "Primer", "MS_ORGANIZATION_STATE" ],
+    "env" : {
+      "ESB" : "tcp://localhost:8900"
+    }
+  },
+  {
     "name" : "MS_CHAT_INVITATION",
     "dir" : "../ms-chat-invitation",
     "verify" : "Finished 'dev' after",
@@ -207,6 +229,17 @@
     "env" : {
       "ESB" : "tcp://localhost:8900",
       "DB"  : "postgres://postgres:abc123@localhost:5432/cqm"
+    }
+  },
+  {
+    "name" : "Client Sentinel",
+    "dir" : "../ms-client-sentinel",
+    "verify" : "Finished 'dev' after",
+    "verifyLines" : 200,
+    "cmd" : "gulp dev",
+    "depends" : [ "ESB", "Primer", "MS_ORGANIZATION_STATE" ],
+    "env" : {
+      "ESB" : "tcp://localhost:8900"
     }
   },
   {
