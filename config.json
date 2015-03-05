@@ -209,6 +209,17 @@
     }
   },
   {
+    "name" : "Customer Transcript",
+    "dir" : "../ms-customer-transcript",
+    "verify" : "Finished 'dev' after",
+    "verifyLines" : 200,
+    "cmd" : "gulp dev",
+    "depends" : [ "ESB", "Primer", "MS_ORGANIZATION_STATE" ],
+    "env" : {
+      "ESB" : "tcp://localhost:8900"
+    }
+  },
+  {
     "name" : "MS_CHAT_INVITATION",
     "dir" : "../ms-chat-invitation",
     "verify" : "Finished 'dev' after",
