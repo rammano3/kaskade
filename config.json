@@ -95,6 +95,7 @@
     "dir" : "../hydra/test/config/router",
     "verify" : "Hail hydra Router",
     "verifyLines" : 20,
+    "verifyImmediately" : true,
     "cmd" : "./run",
     "depends" : [ "ESB", "FEM", "Primer", "CQM", "PostChat", "Suggestion", "Auth", "History", "SalesForceGet" ],
     "testSuite" : "../hydra/test/router-test.js"
@@ -517,5 +518,14 @@
     "verifyImmediately" : true,
     "cmd" : "./run",
     "depends" : [ "ESB" ]
+  },
+  {
+    "name" : "Bridge",
+    "dir" : "../hydra/test/config/bridge",
+    "verify" : "Hail hydra Bridge",
+    "verifyLines" : 20,
+    "verifyImmediately" : true,
+    "cmd" : "./run",
+    "depends" : [ "ESB", "Router" ]
   }
 ]

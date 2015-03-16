@@ -2,7 +2,7 @@
 
 if [[ $USER == "ryan" ]]
 then
-    export KASKADE_FILTER=ANALYTICS,TEST,NIBB
+    export KASKADE_FILTER=ANALYTICS,TEST,NIBB,MISSION_CONTROL,CHAT_PLUGIN,MS_CHAT_INVITATION
 elif [[ $USER == "suitupalex" ]]
 then
     export KASKADE_FILTER=ANALYTICS
