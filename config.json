@@ -511,6 +511,19 @@
     }
   },
   {
+    "name" : "MS_CONTACT_SUPPORT",
+    "dir" : "../ms-contact-support",
+    "verify" : "Starting",
+    "verifyLines" : "300",
+    "cmd" : "gulp dev",
+    "depends" : [ "ESB" ],
+    "env" : {
+      "ESB" : "tcp://localhost:8900",
+      "HELP_SCOUT_API_KEY" : "super-fake-key",
+      "MAILBOX_ID": 41538
+    }
+  },
+  {
     "name" : "SalesForceGet",
     "dir" : "../hydra/test/config/salesforceget",
     "verify" : "Hail hydra SalesForceGet",

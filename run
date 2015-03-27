@@ -6,6 +6,9 @@ then
 elif [[ $USER == "suitupalex" ]]
 then
     export KASKADE_FILTER=ANALYTICS
+elif [[ $USER == "vagrant" ]]
+then
+    export KASKADE_FILTER=INVITATION,PLUGIN,CONTACT
 else
     echo "Please set up your user here! $USER"
     exit
