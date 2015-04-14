@@ -554,5 +554,17 @@
     "verifyImmediately" : true,
     "cmd" : "./run",
     "depends" : [ "ESB", "Router" ]
+  },
+  {
+    "name" : "CRUD_USERSTOKENS",
+    "dir" : "../ms-crud-usertokens",
+    "verify" : "Finished 'dev' after",
+    "verifyLines" : 200,
+    "cmd" : "gulp dev",
+    "depends" : [ "ESB", "DB"  ],
+    "env" : {
+      "ESB" : "tcp://localhost:8900",
+      "DB" : "postgres://postgres:abc123@localhost:5432/help"
+    }
   }
 ]
