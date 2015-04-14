@@ -556,7 +556,7 @@
     "depends" : [ "ESB", "Router" ]
   },
   {
-    "name" : "CRUD_USERSTOKENS",
+    "name" : "CRUD_USERTOKENS",
     "dir" : "../ms-crud-usertokens",
     "verify" : "Finished 'dev' after",
     "verifyLines" : 200,
