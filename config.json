@@ -29,7 +29,7 @@
   {
     "name" : "Primer",
     "dir" : "../hydra/test/config/primer",
-    "verify" : "Hail hydra Primer",
+    "verify" : "Another head emerges Primer",
     "verifyLines" : 20,
     "verifyImmediately" : true,
     "cmd" : "./run",
@@ -38,7 +38,7 @@
   {
     "name" : "Reporting",
     "dir" : "../hydra/test/config/reporting",
-    "verify" : "Hail hydra Reporting",
+    "verify" : "Another head emerges Reporting",
     "verifyLines" : 20,
     "verifyImmediately" : true,
     "cmd" : "./run",
@@ -48,7 +48,7 @@
   {
     "name" : "Auth",
     "dir" : "../hydra/test/config/authentication",
-    "verify" : "Hail hydra Authentication",
+    "verify" : "Another head emerges Authentication",
     "verifyLines" : 20,
     "cmd" : "./run",
     "depends" : [ "ESB", "CRUD_CUSTOMERS", "CRUD_USERS", "CRUD_GROUPS", "CRUD_GROUPUSERS", "CQM" ],
@@ -57,7 +57,7 @@
   {
     "name" : "PostChat",
     "dir" : "../hydra/test/config/postchat",
-    "verify" : "Hail hydra PostChat",
+    "verify" : "Another head emerges PostChat",
     "verifyLines" : 20,
     "cmd" : "./run",
     "depends" : [ "ESB" ],
@@ -66,7 +66,7 @@
   {
     "name" : "Suggestion",
     "dir" : "../hydra/test/config/suggestion",
-    "verify" : "Hail hydra Suggestion",
+    "verify" : "Another head emerges Suggestion",
     "verifyLines" : 20,
     "cmd" : "./run",
     "depends" : [ "ESB" ],
@@ -75,7 +75,7 @@
   {
     "name" : "Sentinel",
     "dir" : "../hydra/test/config/sentinel",
-    "verify" : "Hail hydra Sentinel",
+    "verify" : "Another head emerges Sentinel",
     "verifyLines" : 20,
     "cmd" : "./run",
     "depends" : [ "ESB" ],
@@ -84,7 +84,7 @@
   {
     "name" : "History",
     "dir" : "../hydra/test/config/history",
-    "verify" : "Hail hydra History",
+    "verify" : "Another head emerges History",
     "verifyLines" : 20,
     "cmd" : "./run",
     "depends" : [ "ESB" ],
@@ -93,7 +93,7 @@
   {
     "name" : "Router",
     "dir" : "../hydra/test/config/router",
-    "verify" : "Hail hydra Router",
+    "verify" : "Another head emerges Router",
     "verifyLines" : 20,
     "verifyImmediately" : true,
     "cmd" : "./run",
@@ -103,7 +103,7 @@
   {
     "name" : "OfflineMessenger",
     "dir" : "../hydra/test/config/offlinemessenger",
-    "verify" : "Hail hydra OfflineMessenger",
+    "verify" : "Another head emerges OfflineMessenger",
     "verifyLines" : 20,
     "cmd" : "./run",
     "depends" : [ "ESB", "FEM" ]
@@ -111,7 +111,7 @@
   {
     "name" : "OrganizationManager",
     "dir" : "../hydra/test/config/organizationmanager",
-    "verify" : "Hail hydra OrganizationManager",
+    "verify" : "Another head emerges OrganizationManager",
     "verifyLines" : 20,
     "cmd" : "./run",
     "depends" : [ "ESB", "FEM" ]
@@ -119,7 +119,7 @@
   {
     "name" : "NoteManager",
     "dir" : "../hydra/test/config/notemanager",
-    "verify" : "Hail hydra NoteManager",
+    "verify" : "Another head emerges NoteManager",
     "verifyLines" : 20,
     "cmd" : "./run",
     "depends" : [ "ESB", "FEM" ]
@@ -127,7 +127,7 @@
   {
     "name" : "TagManager",
     "dir" : "../hydra/test/config/tagmanager",
-    "verify" : "Hail hydra TagManager",
+    "verify" : "Another head emerges TagManager",
     "verifyLines" : 20,
     "cmd" : "./run",
     "depends" : [ "ESB", "FEM" ]
@@ -540,7 +540,7 @@
   {
     "name" : "SalesForceGet",
     "dir" : "../hydra/test/config/salesforceget",
-    "verify" : "Hail hydra SalesForceGet",
+    "verify" : "Another head emerges SalesForceGet",
     "verifyLines" : 20,
     "verifyImmediately" : true,
     "cmd" : "./run",
@@ -549,7 +549,7 @@
   {
     "name" : "Bridge",
     "dir" : "../hydra/test/config/bridge",
-    "verify" : "Hail hydra Bridge",
+    "verify" : "Another head emerges Bridge",
     "verifyLines" : 20,
     "verifyImmediately" : true,
     "cmd" : "./run",
