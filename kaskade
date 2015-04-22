@@ -80,7 +80,6 @@ sub verify_directly {
     for ( 1..$line_limit ) {
         local $SIG{ALRM} = sub {
             print "Failed to read data for $name\n";
-            &cleanup();
             die("Failed to read data for $name");
         };
         my $line;
@@ -94,6 +93,8 @@ sub verify_directly {
         return if ( $line =~ /$to_verify/g );
     }
     print "Could not start $name!\n\n\n" . join(@lines_recorded, "") . "\n";
+    print "Press return to shutdown\n";
+    my $wait = <STDIN>;
     &cleanup();
 }
 
@@ -103,6 +104,17 @@ sub generate_label {
     my $prepend = ($label_len - ceil(length($name))) / 2;
     my $res = "[" . ( ' ' x $prepend ) . $name . ( ' ' x $prepend ) . ( length($name) % 2 != 0 ? ' ' : '' ) . "]";
     return $res;
+}
+
+sub check_directories {
+    my $order = shift;
+    foreach my $config ( @{$order} ) {
+        my $dir = $FindBin::Bin . '/' . $config->{'dir'};
+        if ( ! -d $dir ) {
+            print "Directory not found: $config->{'name'} ($dir)\n";
+            exit();
+        }
+    }
 }
 
 sub start {
@@ -151,7 +163,10 @@ sub determine_order {
     my @order;
     my %dependencies;
 
+    my $count = 0;
     while ( keys(%{$config_copy}) > 0 ) {
+        die("Could not determine dependencies for following services\n\n " . Dumper($config_copy)) if ( $count++ > 500 );
+
         foreach my $name ( sort(keys(%{$config_copy})) ) {
             my $cc = $config_copy->{$name};
             if ( ( ! $cc->{'depends'} || @{$cc->{'depends'}} == 0 ) || # if we have no dependencies
@@ -185,7 +200,7 @@ sub apply_filter {
         my @filters = split(",", $ENV{"KASKADE_FILTER"});
 
         foreach my $filter ( @filters ) {
-            for ( my $cc = 0; $cc < $#{$order}; $cc++ ) {
+            for ( my $cc = 0; $cc <= $#{$order}; $cc++ ) {
                 if ( index($order->[$cc]{'name'}, $filter) >= 0 ) {
                     splice(@{$order}, $cc, 1);
                     $cc--;
@@ -205,6 +220,8 @@ sub main {
 
     my ( $t0, $t1, $elapsed );
     $t0 = [gettimeofday];
+
+    &check_directories(\@order);
 
     print "\n[". &get_timestamp() . "] Starting [ " . join(" / ", map { $_->{'name'} } @order) . " ]\n\n";
 
