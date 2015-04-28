@@ -566,5 +566,17 @@
       "ESB" : "tcp://localhost:8900",
       "DB" : "postgres://postgres:abc123@localhost:5432/help"
     }
+  },
+  {
+    "name" : "help-state",
+    "dir" : "../ms-help-state",
+    "verify" : "Finished 'dev' after",
+    "verifyLines" : 200,
+    "cmd" : "gulp dev",
+    "depends" : [ "ESB" ],
+    "env" : {
+      "ESB" : "tcp://localhost:8900",
+      "DB" : "postgres://postgres:abc123@localhost:5432/help"
+    }
   }
 ]
