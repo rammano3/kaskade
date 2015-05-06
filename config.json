@@ -577,5 +577,17 @@
       "ESB" : "tcp://localhost:8900",
       "DB" : "postgres://postgres:abc123@localhost:5432/help"
     }
+  },
+  {
+    "name" : "chat-response",
+    "dir" : "../ms-chat-response",
+    "verify" : "Finished 'dev' after",
+    "verifyLines" : 200,
+    "cmd" : "gulp dev",
+    "depends" : [ "ESB" ],
+    "env" : {
+      "ESB" : "tcp://localhost:8900",
+      "DB" : "postgres://postgres:abc123@localhost:5432/help"
+    }
   }
 ]
